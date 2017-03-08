@@ -1,0 +1,468 @@
+---
+title: "SWC R lesson day 1"
+author: "Darya Vanichkina"
+date: "01/03/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## R can be used as a calculator
+
+```{r PEMDAS}
+2 + 2
+(3+4) * 2
+3 + 4 * 2 # comment at end of line
+# Comments
+2/1000000000000000000000000000
+```
+
+## Mathematical functions
+
+
+```{r MathFunct}
+sin(1)
+log(1) # natural
+log10(10) #base 10
+log2(2) # base 2
+
+exp(0.5) # e^1/2
+```
+
+## Comparisons
+```{r Comparisons}
+# equality
+1 == 1
+# inequality
+1 != 1
+1 != 2
+# less than
+1 < 5
+# greater than equal to
+1 >= 0
+# gotcha
+2/3
+2/3 == 0.66666666666667
+all.equal(2/3, 0.66666666666667)
+```
+# Variables
+Names can be 
+- camelCase
+- with_underscores
+- periods.between.words
+
+Names can't
+- start with a number (2bad)
+- contain spaces (so sorry)
+```{r Variables}
+x = 10
+x <- 10 # this assignment operator
+x
+x <- 20
+x
+x <- x + 1
+x
+```
+# Vectorisation
+```{r Vectorisation}
+1:20
+x <- 1:20
+length(x)
+2 ^ x
+```
+
+## Managing your environment
+```{r Environment}
+# what objects are in my environment
+ls()
+# remove objects
+rm(x)
+# where are we in the OS
+getwd()
+# go somewhere else
+setwd(".")
+# everything about our environemt
+sessionInfo()
+
+```
+
+## Packages
+- available on CRAN
+- to install packages
+```{r Install}
+install.packages("packagename")
+update.packages()
+remove.packages()
+
+library("packagename")
+_age
+```
+- escape kills
+
+```{r Ex2}
+mass <- 47.5
+age <- 122
+mass <- mass * 2.3
+age <- age - 20
+mass > age
+mass
+age
+library(tidyverse)
+library(gapminder)
+```
+# Getting help
+- ?function
+- google vignette + package name + function
+- StackOverflow
+- QuickR
+- Rstudio cheat sheets
+
+# Exe
+
+```{r Prim}
+c(1, 2, 3)
+c('d', 'e', 'f')
+c(1, 2, 'f')
+```
+
+# R data types
+
+- reading in a csv file
+
+```{r ReadCsv}
+cats <- read.csv("cats.csv")
+cats$weight
+cats$coat
+cats$likes_string
+
+paste("My cat is", cats$coat)
+```
+
+```{r Types}
+typeof(cats$weight)
+typeof(cats$coat)
+typeof(cats$likes_string)
+
+```
+
+# MAIN TYPES OF DATA
+
+1. double
+2. integer
+3. complex
+4. logical
+5. character
+
+```{r Typeof}
+typeof(3.14)
+typeof(3)
+typeof(3L)
+typeof(1+1i)
+typeof(TRUE)
+typeof(F)
+typeof("text")
+```
+
+
+```{r Class}
+class(cats$coat)
+class(cats$weight)
+class(cats$likes_string)
+class(cats)
+```
+
+```{r MakeVector}
+myvector <- vector(length = 3)
+(my2vector <- vector(mode="integer", length = 3))
+
+as.character(my2vector)
+as.numeric(my2vector)
+as.logical(my2vector)
+str(myvector)
+str(cats)
+```
+
+```{r COmbineVectors}
+combine_vector <- c(2, 6, "c")
+str(combine_vector)
+as.numeric(combine_vector)
+```
+
+```{r WorkingWithData}
+(mySeries <- 1:10)
+head(mySeries)
+tail(mySeries)
+str(mySeries)
+length(mySeries)
+class(mySeries)
+typeof(mySeries)x
+names(mySeries) <- c(rep("Name1", 5), rep("Name2", 5))
+mySeries
+```
+
+
+```{r}
+x <- 1:26 
+x <- x * 2
+names(x) <- LETTERS
+names(x) <- letters
+```
+
+```{r}
+cats2 <- read.csv("cats.csv", stringsAsFactors = FALSE)
+```
+
+```{r}
+myfactor <- c("Case", "Case", "Control", "Control")
+myfactor_asordered <- factor(myfactor, levels = c("Control", "Case"))
+myfactor_default <- factor(myfactor)
+```
+
+
+# Session 2
+
+```{r ReadInData}
+gapminder <- read.csv("gapminder-FiveYearData.csv")
+
+str(gapminder)
+head(gapminder)
+typeof(gapminder)
+typeof(gapminder$country)
+colnames(gapminder)
+
+table(gapminder$country)
+table(gapminder$year)
+summary(gapminder)
+```
+
+
+## Creating publication quality graphics - Hadley Wickham
+
+```{r Plot}
+library(ggplot2)
+ggplot(data = gapminder, aes( x = gdpPercap, y = lifeExp)) + geom_point() + theme_minimal()
+
+```
+Another library called ggthemes for pretty themes
+
+How has the life expectancy changed over time?
+
+```{r TimeChange}
+ggplot(data = gapminder, aes( x = year, y = lifeExp)) + geom_point() + theme_minimal()
+# now colour points based on continent column
+ggplot(data = gapminder, aes(x = year, y = lifeExp, colour = continent)) + geom_point() + theme_minimal()
+
+# use a line plot instead
+ggplot(data = gapminder, aes(x = year, y = lifeExp, colour = continent)) + geom_line() + theme_minimal()
+
+# have both
+ggplot(data = gapminder, aes(x = year, y = lifeExp, colour = continent)) + geom_line() + geom_point() + theme_minimal()
+
+```
+
+Overlay stats
+```{r}
+
+ggplot(data = gapminder, aes( x = gdpPercap, y = lifeExp)) + geom_point() + theme_minimal()
+
+
+ggplot(data = gapminder, aes( x = gdpPercap, y = lifeExp)) + geom_point() + theme_minimal() + scale_x_log10()
+
+# add linear model
+ggplot(data = gapminder, aes( x = gdpPercap, y = lifeExp)) + geom_point() + theme_minimal() + scale_x_log10() + geom_smooth(method = "lm", size = 1.5)
+
+```
+Modify the point colour and the line colour without using aes...
+
+```{r}
+
+ggplot(data = gapminder, aes( x = gdpPercap, y = lifeExp)) + geom_point(colour = "green", size = 2) + theme_minimal() + scale_x_log10() + geom_smooth(method = "lm", size = 1.5, colour= "orange")
+```
+
+Practive with the Iris dataset
+
+Test relationship between Sepal.Length and Species 
+```{r iris}
+iris
+# do anova like prism
+kruskal.test(Sepal.Length ~ Species, data = iris) 
+# 
+library(dunn.test)
+
+dunn.test(iris$Sepal.Length, g = iris$Species, method = "bonferroni")
+
+set.seed(1) # set R's random number generator to a specific point
+# make a boxplot
+#pdf("mytestpdf.pdf")
+ggplot(data = iris, aes(x = Species, y = Sepal.Length)) + geom_boxplot() +theme_minimal()+ geom_jitter(aes(colour = Species), width = 0.3) + annotate(geom = "text", x = 1.5, y = 8.25, label = "****" )  + annotate(geom = "text", x = 2.5, y = 8.25, label = "***" )  + annotate("segment", x = 1, xend = 1.9, y = 8.15, yend = 8.15) + annotate("segment", x = 2.1, xend = 3, y = 8.15, yend = 8.15) + annotate("segment", x = 1, xend = 1, y = 8, yend = 8.15)+ annotate("segment", x =1.9, xend = 1.9, y = 8, yend = 8.15)+ annotate("segment", x = 2.1, xend = 2.1, y = 8, yend = 8.15)+ annotate("segment", x = 3, xend = 3, y = 8, yend = 8.15)
+#dev.off()
+```
+
+```{r SplitPlt}
+summary(iris$Petal.Length)
+iris$Petal.class <- cut(iris$Petal.Length, c(-Inf, 1.6, 4.35, 5.1, Inf))
+
+ggplot(data = iris, aes(x = Sepal.Width, y = Sepal.Length, colour = Petal.class)) + geom_point() + theme_bw() +facet_grid(Petal.class~ Species)
+```
+
+
+## Back to data frames
+```{r AddColumnsAndRows}
+cats <- read.csv("cats.csv")
+str(cats)
+
+# add a column 
+age <- c(1,2,3)
+cats <- cbind(cats, age)
+str(cats)
+
+newcat <- c("tortoiseshell", 2, 0, 1 )
+levels(cats$coat) <- c(levels(cats$coat), "tortoiseshell")
+cats <- rbind(cats, newcat)
+
+cats <- rbind(cats, cats)
+
+```
+
+### Subsetting data frames
+
+```{r}
+# different ways of parsing
+cats <- read.csv("cats.csv")
+cats$coat
+cats[1]
+cats[1:2]
+cats[1,1]
+cats[1,2]
+cats[cats$weight <= 3.2,]
+subset.data.frame(cats, cats$weight <= 3.2)
+```
+
+
+```{r Gapminder}
+head(gapminder)
+head(gapminder[,1:4])
+# 
+head(gapminder[gapminder$year == 1957,])
+# Extract all columns except 1 through to 4
+head(gapminder[,-1:-4])
+# Extract the rows where the life expectancy is longer the 80years
+gapminder[gapminder$lifeExp > 80,]
+# Extract the first row, and the fourth and fifth columns (lifeExpand gdpPercap).
+gapminder[1, 4:5]
+# Advanced: extract rows that contain information for the years2002 and 2007
+head(gapminder[gapminder$year == 2002 | 2007,])
+head(gapminder[gapminder$year %in% c(2002, 2007),])
+
+head(subset.data.frame(gapminder, gapminder$year %in% c(2002, 2007)))
+
+
+# europe
+subset.data.frame(gapminder, gapminder$continent == "Europe" & gapminder$lifeExp >= 73)
+
+```
+# Control flow
+
+```{r}
+# foe loop
+for(i in 1:10){print(i)}
+
+# if clause
+for(x in 1:20){
+if (x >= 10){
+  print(x)
+  print("greater")
+}
+else if (x > 5)
+{  print(x)
+  print("medium")}
+else {
+  print(x)
+  print("small")
+}
+}
+```
+
+
+# Day 4 
+## R functions
+```{r}
+fahr_to_kelvin <- function(temp = 100){
+  kelvin <- ((temp - 32) * 5/9) + 273.15
+  return(kelvin)
+}
+
+# freezing
+fahr_to_kelvin(32)
+# boiling
+fahr_to_kelvin(212)
+# 
+fahr_to_kelvin()
+
+# write kelvin to celsius function (celsius = kelvin - 273.15)
+kelvin_to_celsius <- function(temp){
+  celsius <- temp - 273.15
+  return(celsius)
+}
+kelvin_to_celsius(373.15)
+
+# now make another function that combines kelvin_to_celsius AND fahr_to_kelvin to convert from Fahrenheit to Celsius directly
+fahr_to_celsius <- function(temp){
+  # fahr to kelvin
+  kelvin <- fahr_to_kelvin(temp)
+  # kelvin to celsius 
+  celsius <- kelvin_to_celsius(kelvin)
+  # return
+  return(celsius)
+}
+
+fahr_to_celsius(32)
+fahr_to_celsius(212)
+
+fahr_to_celsius2 <- function(temp){
+  return(kelvin_to_celsius(fahr_to_kelvin(temp)))
+}
+
+fahr_to_celsius2(32)
+fahr_to_celsius2(212)
+```
+
+
+```{r GapminderFunc}
+
+calcGDP <- function(dat, year = NULL, country = NULL){
+  if(!is.null(year)){
+    dat <- dat[dat$year %in% year,]
+  }
+  if(!is.null(country)){
+    dat <- dat[dat$country %in% country, ]
+  }
+  
+  gdp <- dat$pop * dat$gdpPercap
+  #print(class(gdp))
+  new <- cbind(dat, gdp = gdp)
+  
+  return(new)
+}
+
+head(gapminder)
+
+head(calcGDP(gapminder, year = 2007))
+head(calcGDP(gapminder, year = 2007, country = "Afghanistan"))
+head(calcGDP(gapminder, year = c(2007,1952), country = "Afghanistan"))
+
+australia <- calcGDP(gapminder, country = "Australia")
+
+write.csv(australia, file = "australia.csv")
+# openxlsx
+```
+
+
+
+
+
+
+
+
+
