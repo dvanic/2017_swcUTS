@@ -462,6 +462,79 @@ write.csv(australia, file = "australia.csv")
 Added yet another line again.
 
 
+# dplyr
+```{r dplyr}
+library(tidyverse)
+head(gapminder)
+
+gapminder %>% 
+  select(`year`, `country`, `gdpPercap`) %>%
+  head()
+
+# filter 
+gapminder %>%
+  dplyr::filter(continent == "Europe") %>% 
+  select(year, country, gdpPercap) %>%
+  head()
+
+# get life expectancy and country and year for countries in Africa
+gapminder %>% 
+  dplyr::filter(continent == "Africa") %>%
+  select(year, country, lifeExp) %>%
+  dim()
+
+# group_by and summarise
+gapminder %>% 
+  group_by(continent) %>%
+  summarise(mean_gdppercap = mean(gdpPercap))
+
+
+# Calculate avg life expectancy per country and find out which one has the longest and shortest life expectancy?
+gapminder %>%
+  group_by(country) %>%
+  summarise(meanLifeExp = mean(lifeExp)) %>%
+  arrange(meanLifeExp) %>%
+  head(1)
+
+gapminder %>%
+  group_by(country) %>%
+  summarise(meanLifeExp = mean(lifeExp)) %>%
+  arrange(meanLifeExp) %>%
+  tail(1)
+
+gapminder %>%
+  group_by(country) %>%
+  summarise(meanLifeExp = mean(lifeExp)) %>%
+  dplyr::filter(meanLifeExp == min(meanLifeExp) | meanLifeExp == max(meanLifeExp))
+
+
+```
+More cool groupby/summarise:
+   - group by multiple variables
+   - find multiple summaries
+
+```{r}
+gapminder %>%
+  group_by(continent, year) %>% 
+  summarise(mean_gdpPerCap = mean(gdpPercap),
+            sd_gdpPerCap = sd(gdpPercap), 
+            mean_pop = mean(pop),
+            sd_pop = sd(pop)) %>% 
+  head()
+```
+
+# Mutate
+- creating new variables on the fly
+```{r}
+gapminder %>%
+  mutate(startsWith = substr(country, start = 1, stop =1)) %>%
+  dplyr::filter(startsWith %in% c("A", "Z")) %>%
+  ggplot(aes(x = year, y = lifeExp, colour = continent)) + geom_line() + facet_wrap(~ country) + theme_bw()
+
+``` 
+
+
+
 
 
 
