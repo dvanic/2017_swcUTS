@@ -1,0 +1,387 @@
+Etherpad for the SWC workshop at UTS on Feb 27 - Mar 8
+
+
+
+WHIILE YOU WAIT: set up bitbucket account http://bitbucket.com/
+USE YOUR ACADEMIC (@EDU.AU) credentials
+
+
+Link to post-workshop survey: https://goo.gl/forms/4OEKN5yZUBbk3t9l1
+Link to cheat sheet for dplyr: https://rpubs.com/bradleyboehmke/data_wrangling
+https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html
+
+Other:
+    - bioconductor https://www.bioconductor.org/
+    - R for DS... Hadley http://r4ds.had.co.nz/
+    - QuickR
+    
+
+Sample qPCR https://figshare.com/articles/qPCR_sample_template/4732942
+
+
+
+
+Mar 6 excercise
+Fix each of the following common data frame subsetting errors:
+1.    Extract observations collected for the year 1957
+ gapminder[gapminder$year = 1957,]
+
+3.    Extract all columns except 1 through to 4
+ gapminder[,-1:4]
+
+5.    Extract the rows where the life expectancy is longer the 80years
+
+ gapminder[gapminder$lifeExp > 80]
+
+7.    Extract the first row, and the fourth and fifth columns (lifeExpand gdpPercap).
+
+ gapminder[1, 4, 5]
+
+9.    Advanced: extract rows that contain information for the years2002 and 2007
+
+gapminder[gapminder$year == 2002 | 2007,]
+
+ 
+
+2.
+Which country in Europe first achieved a life expectancy ofover 73 years? In what year? 
+
+
+
+
+March 1 notes
+Data
+https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder-FiveYearData.csv
+Wide data
+https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder_wide.csv
+
+Ggplot official help
+http://docs.ggplot2.org/current/geom_point.html
+http://www.r-tutor.com/elementary-statistics/non-parametric-methods/kruskal-wallis-test
+
+http://swcarpentry.github.io/r-novic
+Lene-gapminder/15-knitr-markdown/
+
+Problem set 1
+ 
+1.  Which of the following are valid R variable names?
+
+min_heig'ht
+max.height
+_age # nope
+.mass
+MaxLength
+min-length
+2widths
+celsius2kelvin
+
+2.     What will be the value of each variable after each statement in the following program?
+
+mass <- 47.5
+age <- 122
+mass <- mass * 2.3
+age <- age - 20
+
+3.     Run the code from the previous challenge, and write a command to compare mass to age. Is mass larger than age?
+
+4.     Install the following packages: tidyverse, gapminder
+
+ 
+Set 2
+1.    Look at the help for the c function. What kind of vector do you expect youwill create if you evaluate the following:
+
+c(1, 2, 3)
+c('d', 'e', 'f')
+c(1, 2, 'f')
+
+ 
+
+2.     Lookat the help for the paste function. You’ll need to use this later. What is thedifference between the sep and collapse arguments?
+
+
+
+coat,weight,likes_string
+calico,2.1,1
+black,5.0,0
+tabby,3.2,1
+
+
+
+Problem set 3
+Start bymaking a vector with the numbers 1 through 26. Multiply the vector by 2, andgive the resulting vector names A through Z (hint: there is a built in vectorcalled LETTERS)
+
+
+Problems 4
+There areseveral subtly different ways to call variables, observations and elements fromdata.frames:
+·       cats[1]
+·       cats[[1]]
+·       cats$coat
+·       cats["coat"]
+·       cats[1, 1]
+·       cats[, 1]
+·       cats[1, ]
+Try outthese examples and explain what is returned by each one.
+Hint: Usethe function typeof() to examine what is returned in each case
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Feb 27 Notes below
+Unix shell:
+    Download the following file and unzip it to your Desktop
+http://swcarpentry.github.io/shell-novice/data/shell-novice-data.zip
+
+Lesson link
+http://swcarpentry.github.io/shell-novice/
+
+
+pwd - Print working directory
+ls - list
+cd - change directory
+~ - goes back to USER directory
+mkdir - make directory (then ls)
+cd .. #go one up
+cd . #this directory
+cd - #go back to where you were
+cd ~ # go to home directory
+vim draft.txt
+:q - quit vim
+ls --help - manual (windows)
+rm - Delete permanently (only works on individual files)
+
+
+Later: http://swcarpentry.github.io/shell-novice/fig/shell_script_for_loop_flow_chart.svg
+
+
+
+Later:
+http://www.phdcomics.com/comics/archive.php?comicid=1531
+
+
+
+
+
+Exercises 1
+1. Absolute vs Relative Paths
+Starting from /Users/amanda/data/, which of the following commands could Amanda use to navigate to her home directory, which is /Users/amanda?
+
+cd .
+cd / 
+cd /home/amanda
+cd ../..
+cd ~
+cd home
+cd ~/data/..
+cd
+cd ..
+
+2. Using the filesystem diagram http://swcarpentry.github.io/shell-novice/fig/filesystem-challenge.svg, if pwd displays /Users/thing, what will ls ../backup display?
+../backup: No such file or directory
+2012-12-01 2013-01-08 2013-01-27
+original pnas_final pnas_sub
+
+3. Assuming a directory structure as in the above Figure, if pwd displays /Users/backup, and -r tells ls to display things in reverse order, what command will display: 
+pnas_sub/ pnas_final/ original/
+a. ls pwd
+b. ls -r -F
+c. ls -r -F /Users/backup
+d. Either #2 or #3 above, but not #1.
+
+
+http://explainshell.com/
+
+
+Exercises 2
+
+1.    Jamie is working on a project and she sees that her files aren’t very well organized:
+
+$ ls -F
+analyzed/  fructose.dat    raw/   sucrose.dat
+
+The fructose.dat and sucrose.dat files contain output from her data analysis.What command(s) covered in this lesson does she need to run so that the commands below will produce the output shown?
+
+$ ls -F
+analyzed/   raw/
+$ ls analyzed
+fructose.dat    sucrose.dat
+
+mv fructose.dat analyzed
+mv sucrose.dat analyzed
+
+mv *.dat analyzed
+
+
+Exercises 3
+
+1.Piping commands together:   
+
+In our current directory, we want tofind the 3 files which have the least number of lines. Which command listedbelow would work?
+
+1.    wc -l * > sort -n > head -n 3
+
+2.    wc -l * | sort -n | head -n 1-3
+
+3.    wc -l * | head -n 3 | sort -n
+
+4 .    wc -l * | sort -n | head -n 3
+
+
+
+
+
+
+
+
+2.Why does uniq only remove adjacent duplicates? MAKE THE FILES andtry the commands!!! Why do you think uniq only removes adjacent duplicatedlines? (Hint: think about very large data sets.) What other command could youcombine with it in a pipe to remove all duplicated lines?  
+
+The command uniq removes adjacent duplicated lines from its input. For example, if a file salmon.txt contains:
+
+coho
+coho
+steelhead
+coho
+steelhead
+steelhead
+
+then uniq salmon.txt produces:
+
+coho
+steelhead
+coho
+steelhead
+
+Why do you think uniq only removes adjacent duplicated lines? (Hint: think about very large data sets.) What other command could you combine with it in a pipe to remove all duplicated lines?
+
+
+
+
+
+
+3.Pipe reading comprehension
+
+
+A file called animals.txt contains the following data:
+
+2012-11-05,deer
+2012-11-05,rabbit
+2012-11-05,raccoon
+2012-11-06,rabbit
+2012-11-06,deer
+2012-11-06,fox
+2012-11-07,rabbit
+2012-11-07,bear
+
+What text passes through each of the pipes and the finalredirect in the pipeline below?
+
+$ cat animals.txt | head -n 5 | tail -n 3 | sort -r > final.txt
+
+
+
+
+1.  Variables in Loops
+Suppose that ls initially displays:
+
+fructose.dat    glucose.dat   sucrose.dat
+
+What is the output of:
+
+for datafile in *.dat
+do
+    ls *.dat
+done
+
+Now, what is the output of:
+
+for datafile in *.dat
+do
+        ls $datafile
+done
+
+Why dothese two loops give different outputs?
+
+
+
+
+
+1.  Saving to a File in a Loop - Part One
+In the same directory, what is theeffect of this loop?
+
+fructose.dat    glucose.dat   sucrose.dat
+
+for sugar in *.dat                
+
+do
+
+    echo $sugar
+
+    cat $sugar > xylose.dat
+
+done
+
+
+1.    Prints fructose.dat, glucose.dat, and sucrose.dat, and the text from sucrose.dat will be saved to a filecalled xylose.dat.
+
+2.    Prints fructose.dat, glucose.dat, and sucrose.dat, and the text from all three files would beconcatenated and saved to a file called xylose.dat.
+
+3.    Prints fructose.dat, glucose.dat, sucrose.dat, and xylose.dat, and the text from sucrose.dat will be saved to a filecalled xylose.dat.
+
+4.    None of the above.
+
+
+1.  Savingto a File in a Loop - Part Two
+In another directory, where ls returns:
+
+
+fructose.dat    glucose.dat   sucrose.dat  maltose.txt
+
+
+What would be the output of thefollowing loop?
+
+
+for datafilein *.dat
+
+do
+
+    cat $datafile >> sugar.dat
+
+done
+
+
+1.    All of the text from fructose.dat, glucose.dat and sucrose.dat would be concatenated and saved to a filecalled sugar.dat.
+
+2.    The text from sucrose.dat will be saved to a filecalled sugar.dat.
+
+3.    All of the text from fructose.dat, glucose.dat, sucrose.dat and maltose.txt would be concatenated and saved to a filecalled sugar.dat.
+
+4.    All of the text from fructose.dat, glucose.dat and sucrose.dat would be printed to the screen and saved to afile called sugar.dat
+
+
